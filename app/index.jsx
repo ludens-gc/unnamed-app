@@ -1,20 +1,66 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import {
+  SafeAreaView,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
+import { Link } from "expo-router";
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Working :D</Text>
-      <StatusBar style="auto" />
+const HomeScreen = () => (
+  <SafeAreaView style={styles.container}>
+    <View style={styles.logoContainer}>
+      <Text style={styles.logoText}>Logo</Text>
     </View>
-  );
-}
+
+    <Text style={styles.infoText}>Um texto qualquer</Text>
+
+    <Link href="/sign-in" asChild>
+      <TouchableOpacity style={styles.loginButton}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
+    </Link>
+  </SafeAreaView>
+);
+
+export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#fafcfd",
+    paddingHorizontal: 16,
+  },
+  logoContainer: {
+    width: "95%",
+    height: 300,
+    backgroundColor: "#4cadc6",
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 20,
+  },
+  logoText: {
+    fontSize: 40,
+    fontWeight: "bold",
+    color: "#fafcfd",
+  },
+  infoText: {
+    fontSize: 18,
+    color: "#080b0c",
+    marginBottom: 20,
+  },
+  loginButton: {
+    backgroundColor: "#54d1f0",
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 8,
+  },
+  loginButtonText: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#fafcfd",
   },
 });
