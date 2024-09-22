@@ -6,25 +6,32 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
-import { Link } from "expo-router";
+import { Link, Redirect } from "expo-router";
+import { useGlobalContext } from "../context/GlobalContext";
 
-const HomeScreen = () => (
-  <SafeAreaView style={styles.container}>
-    <View style={styles.logoContainer}>
-      <Text style={styles.logoText}>Logo</Text>
-    </View>
+const Onboarding = () => {
+  const { loading, isLogged } = useGlobalContext();
 
-    <Text style={styles.infoText}>Um texto qualquer</Text>
+  if (!loading && isLogged) return <Redirect href="/home" />;
 
-    <Link href="/sign-in" asChild>
-      <TouchableOpacity style={styles.loginButton}>
-        <Text style={styles.loginButtonText}>Login</Text>
-      </TouchableOpacity>
-    </Link>
-  </SafeAreaView>
-);
+  return (
+    <SafeAreaView style={styles.container}>
+      <View style={styles.logoContainer}>
+        <Text style={styles.logoText}>Logo</Text>
+      </View>
 
-export default HomeScreen;
+      <Text style={styles.infoText}>Um texto qualquer</Text>
+
+      <Link href="/sign-in" asChild>
+        <TouchableOpacity style={styles.loginButton}>
+          <Text style={styles.loginButtonText}>Login</Text>
+        </TouchableOpacity>
+      </Link>
+    </SafeAreaView>
+  );
+};
+
+export default Onboarding;
 
 const styles = StyleSheet.create({
   container: {

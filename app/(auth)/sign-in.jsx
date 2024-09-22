@@ -10,31 +10,28 @@ import {
 } from "react-native";
 import { Link, useRouter } from "expo-router";
 import { useGlobalContext } from "../../context/GlobalContext";
+import axios from "axios";
 
 const SignIn = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useGlobalContext();
+  const { login, baseUrl } = useGlobalContext();
   const router = useRouter();
 
   const handleLogin = async () => {
     try {
-      const response = await fetch("<ip>:3000/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+      const response = await axios.post(`${baseUrl}/auth/login`, {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        Alert.alert("Erro", errorData.message);
-        return;
+      if (response.status === 200) {
+        const { token, user } = response.data;
+        await login(token, user);
+        router.replace("(tabs)/home");
+      } else {
+        Alert.alert("Erro", "Credenciais inválidas, tente novamente.");
       }
-
-      const data = await response.json();
-      console.log(data);
-      login(data.user);
-      router.replace("(tabs)/home");
     } catch (error) {
       console.error("Erro de conexão:", error);
       Alert.alert("Erro", "Erro ao conectar ao servidor");

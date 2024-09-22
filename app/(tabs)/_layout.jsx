@@ -1,6 +1,11 @@
-import { Tabs } from "expo-router";
+import { Redirect, Tabs } from "expo-router";
+import { useGlobalContext } from "../../context/GlobalContext";
 
 export default function TabsLayout() {
+  const { loading, isLogged } = useGlobalContext();
+
+  if (!loading && !isLogged) return <Redirect href="/sign-in" />;
+
   return (
     <Tabs>
       <Tabs.Screen
@@ -17,27 +22,6 @@ export default function TabsLayout() {
           headerShown: false,
         }}
       />
-      {/* <Tabs.Screen
-        name="(fichas)"
-        options={{
-          tabBarLabel: 'Fichas',
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="(pesquisa)"
-        options={{
-          tabBarLabel: 'Pesquisa',
-          headerShown: false,
-        }}
-      />
-      <Tabs.Screen
-        name="chats"
-        options={{
-          tabBarLabel: 'Chats',
-          headerShown: false,
-        }}
-      /> */}
     </Tabs>
   );
 }
