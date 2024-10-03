@@ -22,6 +22,13 @@ export default function TabsLayout() {
           headerShown: false,
         }}
       />
+      <Tabs.Screen
+        name="(sheets)"
+        options={{
+          tabBarLabel: "Fichas",
+          headerShown: false,
+        }}
+      />
     </Tabs>
   );
 }

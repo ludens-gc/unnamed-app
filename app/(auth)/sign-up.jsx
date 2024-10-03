@@ -15,20 +15,43 @@ import { useGlobalContext } from "../../context/GlobalContext";
 const SignUpScreen = () => {
   const [name, setName] = useState("");
   const [birthDate, setBirthDate] = useState("");
+  const [gender, setGender] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [objective, setObjective] = useState("");
   const { baseUrl } = useGlobalContext();
   const router = useRouter();
 
+  const convertDateToISO = (dateString) => {
+    const [day, month, year] = dateString.split("/");
+    return `${year}-${month}-${day}`;
+  };
+
+  // Função para aplicar máscara de data
+  const applyDateMask = (value) => {
+    let cleaned = value.replace(/\D/g, "");
+    if (cleaned.length > 2 && cleaned.length <= 4) {
+      cleaned = `${cleaned.slice(0, 2)}/${cleaned.slice(2)}`;
+    } else if (cleaned.length > 4) {
+      cleaned = `${cleaned.slice(0, 2)}/${cleaned.slice(2, 4)}/${cleaned.slice(
+        4,
+        8
+      )}`;
+    }
+    return cleaned;
+  };
+
   const handleSignUp = async () => {
     try {
-      const response = await axios.post(`${baseUrl}/auth/signup`, {
+      const formattedBirthDate = convertDateToISO(birthDate);
+
+      const response = await axios.post(`${baseUrl}/register`, {
         name,
-        birthDate,
+        birthDate: formattedBirthDate,
         email,
         password,
         objective,
+        // gender,
       });
 
       if (response.status === 201) {
@@ -65,8 +88,17 @@ const SignUpScreen = () => {
         style={styles.input}
         placeholder="DD/MM/AAAA"
         value={birthDate}
-        onChangeText={setBirthDate}
+        onChangeText={(text) => setBirthDate(applyDateMask(text))}
+        keyboardType="numeric"
       />
+
+      {/* <Text style={styles.label}>Gênero</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Digite seu gênero"
+        value={gender}
+        onChangeText={setGender}
+      /> */}
 
       <Text style={styles.label}>Email</Text>
       <TextInput

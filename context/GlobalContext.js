@@ -10,7 +10,7 @@ const GlobalProvider = ({ children }) => {
   const [isLogged, setIsLogged] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [baseUrl, setBaseUrl] = useState("<IPv4>:3000/api");
+  const [baseUrl, setBaseUrl] = useState("http://<IP>:5001/api");
 
   // useEffect(() => {
   //   const initializeBaseUrl = async () => {
